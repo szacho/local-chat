@@ -21,6 +21,7 @@ const modelConfig = z.object({
 	/** Used to link to the model page, and for inference */
 	name: z.string().min(1),
 	displayName: z.string().min(1).optional(),
+	shortName: z.string().min(1).optional(),
 	description: z.string().min(1).optional(),
 	websiteUrl: z.string().url().optional(),
 	modelUrl: z.string().url().optional(),
@@ -37,11 +38,11 @@ const modelConfig = z.object({
 		.string()
 		.default(
 			"{{preprompt}}" +
-				"{{#each messages}}" +
-				"{{#ifUser}}{{@root.userMessageToken}}{{content}}{{@root.userMessageEndToken}}{{/ifUser}}" +
-				"{{#ifAssistant}}{{@root.assistantMessageToken}}{{content}}{{@root.assistantMessageEndToken}}{{/ifAssistant}}" +
-				"{{/each}}" +
-				"{{assistantMessageToken}}"
+			"{{#each messages}}" +
+			"{{#ifUser}}{{@root.userMessageToken}}{{content}}{{@root.userMessageEndToken}}{{/ifUser}}" +
+			"{{#ifAssistant}}{{@root.assistantMessageToken}}{{content}}{{@root.assistantMessageEndToken}}{{/ifAssistant}}" +
+			"{{/each}}" +
+			"{{assistantMessageToken}}"
 		),
 	promptExamples: z
 		.array(
@@ -130,15 +131,15 @@ export const defaultModel = models[0];
 // Models that have been deprecated
 export const oldModels = OLD_MODELS
 	? z
-			.array(
-				z.object({
-					id: z.string().optional(),
-					name: z.string().min(1),
-					displayName: z.string().min(1).optional(),
-				})
-			)
-			.parse(JSON.parse(OLD_MODELS))
-			.map((m) => ({ ...m, id: m.id || m.name, displayName: m.displayName || m.name }))
+		.array(
+			z.object({
+				id: z.string().optional(),
+				name: z.string().min(1),
+				displayName: z.string().min(1).optional(),
+			})
+		)
+		.parse(JSON.parse(OLD_MODELS))
+		.map((m) => ({ ...m, id: m.id || m.name, displayName: m.displayName || m.name }))
 	: [];
 
 export const validateModel = (_models: BackendModel[]) => {
@@ -150,10 +151,10 @@ export const validateModel = (_models: BackendModel[]) => {
 
 export const smallModel = TASK_MODEL
 	? (models.find((m) => m.name === TASK_MODEL) ||
-			(await processModel(modelConfig.parse(JSON.parse(TASK_MODEL))).then((m) =>
-				addEndpoint(m)
-			))) ??
-	  defaultModel
+		(await processModel(modelConfig.parse(JSON.parse(TASK_MODEL))).then((m) =>
+			addEndpoint(m)
+		))) ??
+	defaultModel
 	: defaultModel;
 
 export type BackendModel = Optional<typeof defaultModel, "preprompt" | "parameters" | "multimodal">;

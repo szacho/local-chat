@@ -65,16 +65,14 @@
 	</div>
 
 	<button
-		class="{isActive
-			? 'bg-gray-100'
-			: 'bg-black text-white'} my-8 flex items-center rounded-full px-3 py-1"
-		disabled={isActive}
+		class="my-8 flex items-center rounded-full bg-gray-100 px-3 py-1"
+		disabled
 		name="Activate model"
 		on:click|stopPropagation={() => {
 			$settings.activeModel = $page.params.model;
 		}}
 	>
-		{isActive ? "Active model" : "Activate"}
+		{isActive ? "Active model" : "Restart to activate"}
 	</button>
 
 	<div class="flex w-full flex-col gap-2">

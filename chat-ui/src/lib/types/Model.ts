@@ -5,6 +5,7 @@ export type Model = Pick<
 	| "id"
 	| "name"
 	| "displayName"
+	| "shortName"
 	| "websiteUrl"
 	| "datasetName"
 	| "promptExamples"
