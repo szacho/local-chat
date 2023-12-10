@@ -27,6 +27,8 @@ elif [[ "$arg1" == '--all-in-one' || "$arg1" == '-a' ]]; then
     done
 elif [[ "$arg1" == '--server' || "$arg1" == '-s' ]]; then
     ./server "$@"
+elif [[ "$arg1" == '--download-serve' || "$arg1" == '-s' ]]; then
+    python3 ./download_serve.py "$@"
 else
     echo "Unknown command: $arg1"
     echo "Available commands: "
