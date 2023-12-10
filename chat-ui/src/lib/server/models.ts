@@ -149,12 +149,8 @@ export const validateModel = (_models: BackendModel[]) => {
 
 // if `TASK_MODEL` is the name of a model we use it, else we try to parse `TASK_MODEL` as a model config itself
 
-export const smallModel = TASK_MODEL
-	? (models.find((m) => m.name === TASK_MODEL) ||
-		(await processModel(modelConfig.parse(JSON.parse(TASK_MODEL))).then((m) =>
-			addEndpoint(m)
-		))) ??
-	defaultModel
-	: defaultModel;
-
+export const smallModel = (models.find((m) => m.shortName === process.env.MODEL) ||
+	(await processModel(modelConfig.parse(JSON.parse(TASK_MODEL))).then((m) =>
+		addEndpoint(m)
+	)));
 export type BackendModel = Optional<typeof defaultModel, "preprompt" | "parameters" | "multimodal">;

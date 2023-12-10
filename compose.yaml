@@ -1,0 +1,41 @@
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+
+  model:
+    environment:
+      - MODEL=${MODEL}
+      - HF_HUB_ENABLE_HF_TRANSFER=1
+    build:
+      context: ./llama.cpp
+      dockerfile: .devops/full-cuda.Dockerfile
+    command: --download-serve ${MODEL} --port 80 --host 0.0.0.0 -np 3
+    ports:
+      - 8080:80
+    volumes:
+      - ./models:/models
+      - .env.local:/app/.env.local
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+
+  ui:
+    environment:
+      - MODEL=${MODEL}
+      - MONGODB_URL=mongodb://mongo:27017
+    build:
+      context: ./chat-ui
+      dockerfile: Dockerfile.local
+      args:
+        - INCLUDE_DB=false
+    volumes:
+      - ./chat-ui:/app
+      - .env.local:/app/.env.local
+    ports:
+      - 3000:3000
