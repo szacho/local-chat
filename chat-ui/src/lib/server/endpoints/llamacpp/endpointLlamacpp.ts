@@ -37,6 +37,7 @@ export function endpointLlamacpp(
 				temperature: model.parameters.temperature,
 				top_p: model.parameters.top_p,
 				top_k: model.parameters.top_k,
+				min_p: model.parameters.min_p,
 				stop: model.parameters.stop,
 				repeat_penalty: model.parameters.repetition_penalty,
 				n_predict: model.parameters.max_new_tokens,
