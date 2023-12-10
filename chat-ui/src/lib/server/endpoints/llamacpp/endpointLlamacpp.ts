@@ -11,7 +11,6 @@ export const endpointLlamacppParametersSchema = z.object({
 	url: z.string().url().default("http://127.0.0.1:8080"),
 	accessToken: z
 		.string()
-		.min(1)
 		.default(HF_TOKEN ?? HF_ACCESS_TOKEN),
 });
 
