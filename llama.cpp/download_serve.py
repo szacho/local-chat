@@ -11,7 +11,7 @@ MODELS_CONFIG = Path(".env.local")
 
 def read_models_info(path: Path = MODELS_CONFIG) -> Dict[str, Any]:
     with path.open() as config_file:
-        models_info = config_file.read().split("`")[1]
+        models_info = config_file.read().split("MODELS=`")[1].split("`")[0]
         models_info = json.loads(models_info)
         return {model["shortName"]: model for model in models_info}
 
@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     if model_name not in models_info:
         raise ValueError(
-            f"model {args.model} not found, choose from {list(models_info.keys())}"
+            f"model {model_name} not found, choose from {list(models_info.keys())}"
         )
 
     start_chat(models_info[model_name], args[1:])

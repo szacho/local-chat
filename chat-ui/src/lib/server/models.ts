@@ -61,6 +61,7 @@ const modelConfig = z.object({
 			stop: z.array(z.string()).optional(),
 			top_p: z.number().positive().optional(),
 			top_k: z.number().positive().optional(),
+			min_p: z.number().positive().optional(),
 			repetition_penalty: z.number().min(-2).max(2).optional(),
 		})
 		.passthrough()
