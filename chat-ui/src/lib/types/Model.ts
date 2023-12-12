@@ -15,4 +15,5 @@ export type Model = Pick<
 	| "datasetUrl"
 	| "preprompt"
 	| "multimodal"
+	| "unlisted"
 >;
