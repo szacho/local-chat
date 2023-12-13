@@ -40,6 +40,7 @@ export function endpointLlamacpp(
 				min_p: model.parameters.min_p,
 				stop: model.parameters.stop,
 				repeat_penalty: model.parameters.repetition_penalty,
+				penalize_nl: model.parameters.penalize_newline,
 				n_predict: model.parameters.max_new_tokens,
 			}),
 		});
