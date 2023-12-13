@@ -51,7 +51,8 @@ const modelConfig = z.object({
 				prompt: z.string().min(1),
 			})
 		)
-		.optional(),
+		.optional()
+		.default([{ "title": "Vegan recipe", "prompt": "Write a recipe for a vegan dinner with black beans as one of ingredients" }, { "title": "Tea infuser cleaning", "prompt": "What is the best way to clean tea infuser heavily stained by tea?" }, { "title": "Coding task", "prompt": "Code a function to check if parentheses, brackets and curly braces are balanced in given string in Python" }]),
 	endpoints: z.array(endpointSchema).optional(),
 	parameters: z
 		.object({
