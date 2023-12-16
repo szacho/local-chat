@@ -9,6 +9,7 @@ type SettingsStore = {
 	ethicsModalAccepted: boolean;
 	ethicsModalAcceptedAt: Date | null;
 	activeModel: string;
+	loadedModel: string;
 	customPrompts: Record<string, string>;
 	recentlySaved: boolean;
 };

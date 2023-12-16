@@ -116,6 +116,8 @@ const addEndpoint = (m: Awaited<ReturnType<typeof processModel>>) => ({
 						return endpoints.llamacpp(args);
 					case "ollama":
 						return endpoints.ollama(args);
+					case "mistral":
+						return endpoints.mistral(args);
 					default:
 						// for legacy reason
 						return endpoints.tgi(args);
@@ -152,7 +154,8 @@ export const validateModel = (_models: BackendModel[]) => {
 };
 
 // if `TASK_MODEL` is the name of a model we use it, else we try to parse `TASK_MODEL` as a model config itself
-export const smallModel = models.find((m) => m.shortName === process.env.MODEL);
+// use only local model for summarization
+export const smallModel = models.find((m) => m.shortName === process.env.MODEL && m.endpoints?.[0].type === "llamacpp");
 export type BackendModel = Optional<
 	typeof defaultModel,
 	"preprompt" | "parameters" | "multimodal" | "unlisted"

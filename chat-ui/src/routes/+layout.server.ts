@@ -58,7 +58,7 @@ export const load: LayoutServerLoad = async ({ locals, depends }) => {
 
 	const loginRequired = requiresUser && !locals.user && userHasExceededMessages;
 
-	let loadedModel = models.filter((model) => model.shortName === process.env.MODEL)[0];
+	let loadedModel = models.find((model) => model.shortName === process.env.MODEL);
 
 	return {
 		conversations: await conversations
@@ -82,7 +82,8 @@ export const load: LayoutServerLoad = async ({ locals, depends }) => {
 			searchEnabled: !!(SERPAPI_KEY || SERPER_API_KEY || YDC_API_KEY || USE_LOCAL_WEBSEARCH),
 			ethicsModalAccepted: !!settings?.ethicsModalAcceptedAt,
 			ethicsModalAcceptedAt: settings?.ethicsModalAcceptedAt ?? null,
-			activeModel: loadedModel.id,
+			activeModel: loadedModel?.id,
+			loadedModel: loadedModel?.id,
 			hideEmojiOnSidebar: settings?.hideEmojiOnSidebar ?? false,
 			shareConversationsWithModelAuthors:
 				settings?.shareConversationsWithModelAuthors ??
@@ -103,6 +104,7 @@ export const load: LayoutServerLoad = async ({ locals, depends }) => {
 			preprompt: model.preprompt,
 			multimodal: model.multimodal,
 			unlisted: model.unlisted,
+			endpoints: model.endpoints,
 		})),
 		oldModels,
 		user: locals.user && {

@@ -13,7 +13,9 @@ def read_models_info(path: Path = MODELS_CONFIG) -> Dict[str, Any]:
     with path.open() as config_file:
         models_info = config_file.read().split("MODELS=`")[1].split("`")[0]
         models_info = json.loads(models_info)
-        return {model["shortName"]: model for model in models_info}
+        return {
+            model["shortName"]: model for model in models_info if "shortName" in model
+        }
 
 
 def download_model(model_info: Dict[str, Any], local_dir: str = "/models") -> None:

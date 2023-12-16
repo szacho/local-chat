@@ -14,6 +14,7 @@ export interface Settings extends Timestamps {
 	shareConversationsWithModelAuthors: boolean;
 	ethicsModalAcceptedAt: Date | null;
 	activeModel: string;
+	loadedModel: string;
 	hideEmojiOnSidebar?: boolean;
 
 	// model name and system prompts
@@ -24,5 +25,6 @@ export interface Settings extends Timestamps {
 export const DEFAULT_SETTINGS = {
 	shareConversationsWithModelAuthors: true,
 	activeModel: defaultModel.id,
+	loadedModel: defaultModel.id,
 	hideEmojiOnSidebar: false,
 };

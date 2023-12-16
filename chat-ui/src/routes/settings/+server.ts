@@ -15,6 +15,7 @@ export async function POST({ request, locals }) {
 			hideEmojiOnSidebar: z.boolean().default(DEFAULT_SETTINGS.hideEmojiOnSidebar),
 			ethicsModalAccepted: z.boolean().optional(),
 			activeModel: validateModel(models).default(DEFAULT_SETTINGS.activeModel),
+			loadedModel: validateModel(models).default(DEFAULT_SETTINGS.loadedModel),
 			customPrompts: z.record(z.string()).default({}),
 		})
 		.parse(body);

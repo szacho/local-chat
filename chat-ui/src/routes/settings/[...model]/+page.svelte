@@ -19,8 +19,9 @@
 		$page.data.models.find((el: BackendModel) => el.id === $page.params.model)?.preprompt;
 
 	$: isActive = $settings.activeModel === $page.params.model;
-
 	$: model = $page.data.models.find((el: BackendModel) => el.id === $page.params.model);
+	$: isAvailable =
+		!isActive && (model.id === $settings.loadedModel || model.endpoints[0].type !== "llamacpp");
 </script>
 
 <div class="flex flex-col items-start">
@@ -65,14 +66,16 @@
 	</div>
 
 	<button
-		class="my-8 flex items-center rounded-full bg-gray-100 px-3 py-1"
-		disabled
+		class="{!isAvailable
+			? 'bg-gray-100'
+			: 'bg-black text-white'} my-8 flex items-center rounded-full px-3 py-1"
+		disabled={!isAvailable}
 		name="Activate model"
 		on:click|stopPropagation={() => {
 			$settings.activeModel = $page.params.model;
 		}}
 	>
-		{isActive ? "Active model" : "Restart to activate"}
+		{isActive ? "Active model" : "Activate"}
 	</button>
 
 	<div class="flex w-full flex-col gap-2">
