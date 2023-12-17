@@ -3,7 +3,6 @@ import {
 	HF_API_ROOT,
 	MODELS,
 	OLD_MODELS,
-	TASK_MODEL,
 	HF_ACCESS_TOKEN,
 } from "$env/static/private";
 import type { ChatTemplateInput } from "$lib/types/Template";
@@ -164,6 +163,7 @@ taskModel.parameters = {
 	truncate: 1024,
 	repetition_penalty: 1.2,
 	penalize_newline: true,
+	stop: [...taskModel?.parameters?.stop ?? [], "\n"],
 };
 export const smallModel = await processModel(taskModel).then(addEndpoint);
 

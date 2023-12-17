@@ -11,7 +11,7 @@ services:
     build:
       context: ./llama.cpp
       dockerfile: .devops/full-cuda.Dockerfile
-    command: --download-serve ${MODEL} --port 80 --host 0.0.0.0 -np 3
+    command: --download-serve ${MODEL} --port 80 --host 0.0.0.0 -np 2
     ports:
       - 8080:80
     volumes:
