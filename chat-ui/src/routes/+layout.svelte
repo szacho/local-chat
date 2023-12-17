@@ -16,7 +16,6 @@
 	import { PUBLIC_APP_ASSETS, PUBLIC_APP_NAME } from "$env/static/public";
 	import titleUpdate from "$lib/stores/titleUpdate";
 	import { createSettingsStore } from "$lib/stores/settings";
-	import { browser } from "$app/environment";
 
 	export let data;
 
@@ -105,14 +104,7 @@
 		$titleUpdate = null;
 	}
 
-	const settings = createSettingsStore(data.settings);
-
-	$: if (browser && $page.url.searchParams.has("model")) {
-		if ($settings.activeModel === $page.url.searchParams.get("model")) {
-			goto(`${base}/?`);
-		}
-		$settings.activeModel = $page.url.searchParams.get("model") ?? $settings.activeModel;
-	}
+	createSettingsStore(data.settings);
 </script>
 
 <svelte:head>
@@ -148,7 +140,7 @@
 </svelte:head>
 
 <div
-	class="grid h-full w-screen grid-cols-1 grid-rows-[auto,1fr] overflow-hidden text-smd dark:text-gray-300 md:grid-cols-[280px,1fr] md:grid-rows-[1fr]"
+	class="text-smd grid h-full w-screen grid-cols-1 grid-rows-[auto,1fr] overflow-hidden dark:text-gray-300 md:grid-cols-[280px,1fr] md:grid-rows-[1fr]"
 >
 	<MobileNav
 		isOpen={isNavOpen}

@@ -25,11 +25,19 @@
 </script>
 
 <div class="flex flex-col items-start">
-	<h2 class="mb-2.5 text-xl font-semibold">
-		{$page.params.model}
-	</h2>
+	<div class="mb-5 flex flex-col gap-1.5">
+		<h2 class="text-lg font-semibold md:text-xl">
+			{$page.params.model}
+		</h2>
 
-	<div class="flex items-center gap-4">
+		{#if model.description}
+			<p class=" text-gray-600">
+				{model.description}
+			</p>
+		{/if}
+	</div>
+
+	<div class="flex flex-wrap items-center gap-2 md:gap-4">
 		<a
 			href={model.modelUrl || "https://huggingface.co/" + model.name}
 			target="_blank"
