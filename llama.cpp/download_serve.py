@@ -6,7 +6,7 @@ from typing import Any, Dict, List
 
 from huggingface_hub import hf_hub_download
 
-MODELS_CONFIG = Path(".env.local")
+MODELS_CONFIG = Path(".env")
 
 
 def read_models_info(path: Path = MODELS_CONFIG) -> Dict[str, Any]:

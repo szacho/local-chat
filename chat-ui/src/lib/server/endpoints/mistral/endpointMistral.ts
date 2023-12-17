@@ -18,7 +18,6 @@ export async function endpointMistral(
     let MistralClient;
     try {
         MistralClient = (await import("@mistralai/mistralai")).default;
-        console.log(MistralClient)
     } catch (e) {
         throw new Error("Failed to import MistralAI", { cause: e });
     }

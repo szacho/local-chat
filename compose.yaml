@@ -16,7 +16,7 @@ services:
       - 8080:80
     volumes:
       - ./models:/models
-      - .env.local:/app/.env.local
+      - ./chat-ui/.env:/app/.env
     deploy:
       resources:
         reservations:
@@ -29,7 +29,6 @@ services:
     environment:
       - MODEL=${MODEL}
       - MONGODB_URL=mongodb://mongo:27017
-      - MISTRAL_API_KEY=${MISTRAL_API_KEY}
     build:
       context: ./chat-ui
       dockerfile: Dockerfile.local
@@ -37,6 +36,5 @@ services:
         - INCLUDE_DB=false
     volumes:
       - ./chat-ui:/app
-      - .env.local:/app/.env.local
     ports:
       - 3000:3000

@@ -6,4 +6,4 @@ Run with
 MODEL=[shortName] docker compose up
 ```
 
-You can find supported shortNames in `.env.local` file.
+You can find supported shortNames in `chat-ui/.env` file. For external API endpoints include your keys in `chat-ui/.env.local` file.
