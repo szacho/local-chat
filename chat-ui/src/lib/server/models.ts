@@ -12,6 +12,7 @@ import { z } from "zod";
 import endpoints, { endpointSchema, type Endpoint } from "./endpoints/endpoints";
 import endpointTgi from "./endpoints/tgi/endpointTgi";
 import { sum } from "$lib/utils/sum";
+import { ta } from "date-fns/locale";
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
@@ -153,9 +154,20 @@ export const validateModel = (_models: BackendModel[]) => {
 	return z.enum([_models[0].id, ..._models.slice(1).map((m) => m.id)]);
 };
 
-// if `TASK_MODEL` is the name of a model we use it, else we try to parse `TASK_MODEL` as a model config itself
-// use only local model for summarization
-export const smallModel = models.find((m) => m.shortName === process.env.MODEL && m.endpoints?.[0].type === "llamacpp");
+// use local model for summarization but with different parameters
+let taskModel = modelsRaw.find((m) => m.shortName === process.env.MODEL) ?? modelsRaw[0];
+taskModel.parameters = {
+	...taskModel?.parameters,
+	temperature: 0.1,
+	top_p: 0.95,
+	max_new_tokens: 32,
+	truncate: 1024,
+	repetition_penalty: 1.2,
+	penalize_newline: true,
+};
+export const smallModel = await processModel(taskModel).then(addEndpoint);
+
+
 export type BackendModel = Optional<
 	typeof defaultModel,
 	"preprompt" | "parameters" | "multimodal" | "unlisted"
