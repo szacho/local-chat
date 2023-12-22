@@ -2,7 +2,7 @@ import type { LayoutServerLoad } from "./$types";
 import { collections } from "$lib/server/database";
 import type { Conversation } from "$lib/types/Conversation";
 import { UrlDependency } from "$lib/types/UrlDependency";
-import { defaultModel, models, oldModels, validateModel } from "$lib/server/models";
+import { defaultModel, models, oldModels, validateModel, configurableParameters } from "$lib/server/models";
 import { authCondition, requiresUser } from "$lib/server/auth";
 import { DEFAULT_SETTINGS } from "$lib/types/Settings";
 import {
@@ -58,7 +58,7 @@ export const load: LayoutServerLoad = async ({ locals, depends }) => {
 
 	const loginRequired = requiresUser && !locals.user && userHasExceededMessages;
 
-	let loadedModel = models.find((model) => model.shortName === process.env.MODEL);
+	const loadedModel = models.find((model) => model.shortName === process.env.MODEL);
 
 	return {
 		conversations: await conversations
@@ -89,7 +89,9 @@ export const load: LayoutServerLoad = async ({ locals, depends }) => {
 				settings?.shareConversationsWithModelAuthors ??
 				DEFAULT_SETTINGS.shareConversationsWithModelAuthors,
 			customPrompts: settings?.customPrompts ?? {},
+			customParameters: settings?.customParameters ?? {},
 		},
+		configurableParameters: configurableParameters,
 		models: models.map((model) => ({
 			id: model.id,
 			name: model.name,

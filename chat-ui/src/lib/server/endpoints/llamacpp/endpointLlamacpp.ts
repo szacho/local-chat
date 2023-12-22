@@ -26,6 +26,8 @@ export function endpointLlamacpp(
 			model,
 		});
 
+		const parameters = { ...model.parameters, ...conversation.parameters };
+
 		const r = await fetch(`${url}/completion`, {
 			method: "POST",
 			headers: {
@@ -34,14 +36,13 @@ export function endpointLlamacpp(
 			body: JSON.stringify({
 				prompt,
 				stream: true,
-				temperature: model.parameters.temperature,
-				top_p: model.parameters.top_p,
-				top_k: model.parameters.top_k,
-				min_p: model.parameters.min_p,
-				stop: model.parameters.stop,
-				repeat_penalty: model.parameters.repetition_penalty,
-				penalize_nl: model.parameters.penalize_newline,
-				n_predict: model.parameters.max_new_tokens,
+				temperature: parameters?.temperature,
+				top_p: parameters?.top_p,
+				top_k: parameters?.top_k,
+				min_p: parameters?.min_p,
+				stop: parameters?.stop,
+				repeat_penalty: parameters?.repetition_penalty,
+				n_predict: parameters?.max_new_tokens,
 			}),
 		});
 

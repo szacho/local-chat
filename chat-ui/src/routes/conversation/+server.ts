@@ -18,10 +18,12 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			fromShare: z.string().optional(),
 			model: validateModel(models),
 			preprompt: z.string().optional(),
+			parameters: z.record(z.any()).optional().default({}),
 		})
 		.parse(JSON.parse(body));
 
 	let preprompt = values.preprompt;
+	let parameters = values.parameters;
 
 	if (values.fromShare) {
 		const conversation = await collections.sharedConversations.findOne({
@@ -50,6 +52,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	// Use the model preprompt if there is no conversation/preprompt in the request body
 	preprompt = preprompt === undefined ? model?.preprompt : preprompt;
+	parameters = parameters === undefined ? model?.parameters : parameters;
 
 	const res = await collections.conversations.insertOne({
 		_id: new ObjectId(),
@@ -57,6 +60,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		messages,
 		model: values.model,
 		preprompt: preprompt === model?.preprompt ? model?.preprompt : preprompt,
+		parameters: parameters,
 		createdAt: new Date(),
 		updatedAt: new Date(),
 		...(locals.user ? { userId: locals.user._id } : { sessionId: locals.sessionId }),
