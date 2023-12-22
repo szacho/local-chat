@@ -19,6 +19,7 @@ export interface Settings extends Timestamps {
 
 	// model name and system prompts
 	customPrompts?: Record<string, string>;
+	customParameters?: Record<string, Record<string, any>>;
 }
 
 // TODO: move this to a constant file along with other constants

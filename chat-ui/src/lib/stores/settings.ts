@@ -11,6 +11,7 @@ type SettingsStore = {
 	activeModel: string;
 	loadedModel: string;
 	customPrompts: Record<string, string>;
+	customParameters: Record<string, Record<string, number>>;
 	recentlySaved: boolean;
 };
 export function useSettingsStore() {

@@ -25,6 +25,7 @@
 				body: JSON.stringify({
 					model: $settings.activeModel,
 					preprompt: $settings.customPrompts[$settings.activeModel],
+					parameters: $settings.customParameters[$settings.activeModel],
 				}),
 			});
 

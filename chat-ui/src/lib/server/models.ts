@@ -4,6 +4,7 @@ import {
 	MODELS,
 	OLD_MODELS,
 	HF_ACCESS_TOKEN,
+	CONFIGURABLE_PARAMETERS,
 } from "$env/static/private";
 import type { ChatTemplateInput } from "$lib/types/Template";
 import { compileTemplate } from "$lib/utils/template";
@@ -134,6 +135,16 @@ export const models = await Promise.all(modelsRaw.map((e) => processModel(e).the
 
 export const defaultModel = models[0];
 
+const confParameterSchema = z.object({
+	id: z.string(),
+	label: z.string(),
+	min: z.number(),
+	max: z.number(),
+	step: z.number(),
+	endpoints: z.array(z.string()),
+});
+export const configurableParameters = z.array(confParameterSchema).parse(JSON.parse(CONFIGURABLE_PARAMETERS));
+
 // Models that have been deprecated
 export const oldModels = OLD_MODELS
 	? z
@@ -162,8 +173,7 @@ taskModel.parameters = {
 	max_new_tokens: 32,
 	truncate: 1024,
 	repetition_penalty: 1.2,
-	penalize_newline: true,
-	stop: [...taskModel?.parameters?.stop ?? [], "\n"],
+	stop: [...taskModel?.parameters?.stop ?? [], "\n"]
 };
 export const smallModel = await processModel(taskModel).then(addEndpoint);
 
@@ -172,3 +182,5 @@ export type BackendModel = Optional<
 	typeof defaultModel,
 	"preprompt" | "parameters" | "multimodal" | "unlisted"
 >;
+
+export type ConfigurableParameter = z.infer<typeof confParameterSchema>;

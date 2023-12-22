@@ -27,6 +27,7 @@ export async function endpointMistral(
     if (completion === "chat_completions") {
         return async ({ conversation }) => {
             let messages = conversation.messages;
+            const parameters = { ...model.parameters, ...conversation.parameters };
 
             const messagesMistralAI = messages.map((message) => ({
                 role: message.from,
@@ -40,10 +41,10 @@ export async function endpointMistral(
                         ? [{ role: "system", content: conversation.preprompt }, ...messagesMistralAI]
                         : messagesMistralAI,
                     stream: true,
-                    max_tokens: model.parameters?.max_new_tokens,
-                    temperature: model.parameters?.temperature,
-                    top_p: model.parameters?.top_p,
-                    safe_mode: model.parameters?.safe_mode,
+                    maxTokens: parameters?.max_new_tokens,
+                    temperature: parameters?.temperature,
+                    topP: parameters?.top_p,
+                    safeMode: false,
                 })
             );
         };

@@ -56,6 +56,7 @@ export async function endpointOai(
 	} else if (completion === "chat_completions") {
 		return async ({ conversation }) => {
 			let messages = conversation.messages;
+			const parameters = { ...model.parameters, ...conversation.parameters };
 			const webSearch = conversation.messages[conversation.messages.length - 1].webSearch;
 
 			if (webSearch && webSearch.context) {
@@ -66,8 +67,8 @@ export async function endpointOai(
 				const previousQuestions =
 					previousUserMessages.length > 0
 						? `Previous questions: \n${previousUserMessages
-								.map(({ content }) => `- ${content}`)
-								.join("\n")}`
+							.map(({ content }) => `- ${content}`)
+							.join("\n")}`
 						: "";
 				const currentDate = format(new Date(), "MMMM d, yyyy");
 				messages = [
@@ -97,11 +98,11 @@ export async function endpointOai(
 						? [{ role: "system", content: conversation.preprompt }, ...messagesOpenAI]
 						: messagesOpenAI,
 					stream: true,
-					max_tokens: model.parameters?.max_new_tokens,
-					stop: model.parameters?.stop,
-					temperature: model.parameters?.temperature,
-					top_p: model.parameters?.top_p,
-					frequency_penalty: model.parameters?.repetition_penalty,
+					max_tokens: parameters?.max_new_tokens,
+					stop: parameters?.stop,
+					temperature: parameters?.temperature,
+					top_p: parameters?.top_p,
+					frequency_penalty: parameters?.repetition_penalty,
 				})
 			);
 		};

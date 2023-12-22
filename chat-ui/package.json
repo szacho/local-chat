@@ -70,6 +70,6 @@
 	"optionalDependencies": {
 		"aws4fetch": "^1.0.17",
 		"openai": "^4.14.2",
-		"@mistralai/mistralai": "0.0.7"
+		"@mistralai/mistralai": "^0.0.8"
 	}
 }

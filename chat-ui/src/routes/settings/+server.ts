@@ -17,6 +17,7 @@ export async function POST({ request, locals }) {
 			activeModel: validateModel(models).default(DEFAULT_SETTINGS.activeModel),
 			loadedModel: validateModel(models).default(DEFAULT_SETTINGS.loadedModel),
 			customPrompts: z.record(z.string()).default({}),
+			customParameters: z.record(z.record(z.any())).default({}),
 		})
 		.parse(body);
 

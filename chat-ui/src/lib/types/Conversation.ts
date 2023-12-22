@@ -19,4 +19,5 @@ export interface Conversation extends Timestamps {
 	};
 
 	preprompt?: string;
+	parameters?: Record<string, any>;
 }
